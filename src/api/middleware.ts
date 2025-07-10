@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { apiConfig } from "../config.js";
 
 function middlewareLogResponses(req: Request, res: Response, next: NextFunction) {
     res.on("finish", () => {
@@ -13,9 +14,14 @@ function middlewareLogResponses(req: Request, res: Response, next: NextFunction)
 
 function middlewareBlockChromeDevTools(req: Request, res: Response, next: NextFunction) {
     if (req.path === '/.well-known/appspecific/com.chrome.devtools.json') {
-    return res.status(204).end();
+        return res.status(204).end();
     }
     next();
 };
 
-export { middlewareLogResponses, middlewareBlockChromeDevTools };
+function middlewareMetricsInc(req: Request, res: Response, next: NextFunction) {
+    apiConfig.fileserverHits++;
+    next();
+}
+
+export { middlewareLogResponses, middlewareBlockChromeDevTools, middlewareMetricsInc };
