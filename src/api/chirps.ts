@@ -13,10 +13,20 @@ export async function handlerValidateChirp(req: Request, res: Response) {
         return;
     }
 
-    if (params.body.length > 140) {
+    const profanity: string[] = ["kerfuffle", "sharbert", "fornax"];
+    const splitChirp = params.body.split(" ");
+    for (let i = 0; i < splitChirp.length; i++) {
+        if (profanity.includes(splitChirp[i].toLowerCase())) {
+            splitChirp[i] = "****";
+        }
+    }
+
+    const cleanedBody = splitChirp.join(" ");
+
+    if (cleanedBody.length > 140) {
         respondWithError(res, 400, "Chirp is too long");
         return;
     }
 
-    respondWithJson(res, 200, { valid: true });
+    respondWithJson(res, 200, { cleanedBody: cleanedBody });
 }
