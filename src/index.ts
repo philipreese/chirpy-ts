@@ -1,8 +1,12 @@
 import express from "express";
-import { handlerReadiness } from "./api/handlerReadiness.js";
-import { middlewareLogResponses, middlewareBlockChromeDevTools, middlewareMetricsInc } from "./api/middleware.js";
-import { handlerMetrics } from "./api/handlerMetrics.js";
-import { handlerReset } from "./api/handlerReset.js";
+import { handlerReadiness } from "./api/readiness.js";
+import {
+    middlewareLogResponses,
+    middlewareBlockChromeDevTools,
+    middlewareMetricsInc,
+} from "./api/middleware.js";
+import { handlerMetrics } from "./api/metrics.js";
+import { handlerReset } from "./api/reset.js";
 
 const app = express();
 const PORT = 8080;
