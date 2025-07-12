@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { apiConfig } from "../config.js";
+import { config } from "../config.js";
 
 export async function handlerReset(_: Request, res: Response) {
-    apiConfig.fileserverHits = 0;
+    config.api.fileserverHits = 0;
     res.end();
 }
