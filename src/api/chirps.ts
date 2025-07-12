@@ -24,8 +24,7 @@ export async function handlerValidateChirp(req: Request, res: Response) {
     const cleanedBody = splitChirp.join(" ");
 
     if (cleanedBody.length > 140) {
-        respondWithError(res, 400, "Chirp is too long");
-        return;
+        throw new Error("Chirp is too long");
     }
 
     respondWithJson(res, 200, { cleanedBody: cleanedBody });

@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import { apiConfig } from "../config.js";
+import { respondWithError } from "./json.js";
 
-function middlewareLogResponses(
+export function middlewareLogResponses(
     req: Request,
     res: Response,
     next: NextFunction
@@ -18,7 +19,7 @@ function middlewareLogResponses(
     next();
 }
 
-function middlewareBlockChromeDevTools(
+export function middlewareBlockChromeDevTools(
     req: Request,
     res: Response,
     next: NextFunction
@@ -29,13 +30,21 @@ function middlewareBlockChromeDevTools(
     next();
 }
 
-function middlewareMetricsInc(req: Request, res: Response, next: NextFunction) {
+export function middlewareMetricsInc(
+    _: Request,
+    __: Response,
+    next: NextFunction
+) {
     apiConfig.fileserverHits++;
     next();
 }
 
-export {
-    middlewareLogResponses,
-    middlewareBlockChromeDevTools,
-    middlewareMetricsInc,
-};
+export function middlewareErrorHandler(
+    err: Error,
+    _: Request,
+    res: Response,
+    __: NextFunction
+) {
+    console.log(err.message);
+    respondWithError(res, 500, "Something went wrong on our end");
+}
