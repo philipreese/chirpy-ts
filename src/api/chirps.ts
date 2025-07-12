@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { respondWithError, respondWithJson } from "./json.js";
+import { BadRequestError } from "./errors.js";
 
 export async function handlerValidateChirp(req: Request, res: Response) {
     type parameters = {
@@ -24,7 +25,7 @@ export async function handlerValidateChirp(req: Request, res: Response) {
     const cleanedBody = splitChirp.join(" ");
 
     if (cleanedBody.length > 140) {
-        throw new Error("Chirp is too long");
+        throw new BadRequestError("Chirp is too long. Max length is 140");
     }
 
     respondWithJson(res, 200, { cleanedBody: cleanedBody });
