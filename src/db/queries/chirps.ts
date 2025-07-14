@@ -9,3 +9,7 @@ export async function createChirp(chirp: NewChirp) {
         .returning();
     return result;
 }
+
+export async function getChirps() {
+    return await db.select().from(chirps);
+}
