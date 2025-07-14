@@ -15,6 +15,20 @@
       "when": 1752500364814,
       "tag": "0001_happy_mole_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752505015421,
+      "tag": "0002_funny_punisher",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1752508254500,
+      "tag": "0003_groovy_microchip",
+      "breakpoints": true
     }
   ]
 }
