@@ -12,7 +12,11 @@ import {
 } from "./api/middleware.js";
 import { handlerMetrics } from "./api/metrics.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerCreateChirp, handlerGetChirps } from "./api/chirps.js";
+import {
+    handlerCreateChirp,
+    handlerGetChirpById,
+    handlerGetChirps,
+} from "./api/chirps.js";
 import { config } from "./config.js";
 import { handlerCreateUser } from "./api/users.js";
 
@@ -36,6 +40,9 @@ app.post("/api/chirps", (req, res, next) => {
 });
 app.get("/api/chirps", (req, res, next) => {
     Promise.resolve(handlerGetChirps(req, res)).catch(next);
+});
+app.get("/api/chirps/:chirpID", (req, res, next) => {
+    Promise.resolve(handlerGetChirpById(req, res)).catch(next);
 });
 
 app.post("/api/users", (req, res, next) => {
