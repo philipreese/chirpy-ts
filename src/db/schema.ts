@@ -7,7 +7,7 @@ export const users = pgTable("users", {
         .notNull()
         .defaultNow()
         .$onUpdate(() => new Date()),
-    emal: varchar("email", { length: 256 }).unique().notNull(),
+    email: varchar("email", { length: 256 }).unique().notNull(),
 });
 
 export type NewUser = typeof users.$inferInsert;

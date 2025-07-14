@@ -14,6 +14,7 @@ import { handlerMetrics } from "./api/metrics.js";
 import { handlerReset } from "./api/reset.js";
 import { handlerValidateChirp } from "./api/chirps.js";
 import { config } from "./config.js";
+import { handlerCreateUser } from "./api/users.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
 await migrate(drizzle(migrationClient), config.db.migrationConfig);
@@ -31,6 +32,10 @@ app.get("/api/healthz", (req, res, next) => {
 });
 app.post("/api/validate_chirp", (req, res, next) => {
     Promise.resolve(handlerValidateChirp(req, res)).catch(next);
+});
+
+app.post("/api/users", (req, res, next) => {
+    Promise.resolve(handlerCreateUser(req, res)).catch(next);
 });
 
 app.get("/admin/metrics", (req, res, next) => {
