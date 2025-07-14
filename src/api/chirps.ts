@@ -2,18 +2,21 @@ import type { Request, Response } from "express";
 import { respondWithJson } from "./json.js";
 import { BadRequestError, NotFoundError } from "./errors.js";
 import { createChirp, getChirpById, getChirps } from "../db/queries/chirps.js";
+import { getBearerToken, validateJWT } from "../auth.js";
+import { config } from "../config.js";
 
 export async function handlerCreateChirp(req: Request, res: Response) {
     type parameters = {
         body: string;
-        userId: string;
     };
 
     const params: parameters = req.body;
+    const token = getBearerToken(req);
+    const userId = validateJWT(token, config.jwt.secret);
 
     const chirp = await createChirp({
         body: validateChirp(params.body),
-        userId: params.userId,
+        userId: userId,
     });
 
     if (!chirp) {

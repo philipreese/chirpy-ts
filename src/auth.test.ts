@@ -1,6 +1,13 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { checkPasswordHash, hashPassword, makeJWT, validateJWT } from "./auth";
+import {
+    checkPasswordHash,
+    getBearerToken,
+    hashPassword,
+    makeJWT,
+    validateJWT,
+} from "./auth";
 import { UnauthorizedError } from "./api/errors";
+import { Request } from "express";
 
 describe("Password Hashing", () => {
     const password1 = "correctPassword123!";
@@ -30,6 +37,9 @@ describe("Json Web Tokens", () => {
     const badToken = "token.user.1234";
     const userId = "userId!";
     let token: string;
+    type MockRequest = {
+        get: (key: string) => string | undefined;
+    };
 
     beforeAll(async () => {
         token = makeJWT(userId, 3600, secret);
@@ -46,5 +56,24 @@ describe("Json Web Tokens", () => {
 
     it("should throw error when token is signed with wrong secret", () => {
         expect(() => validateJWT(token, badSecret)).toThrow(UnauthorizedError);
+    });
+});
+
+describe("Get Bearer Token", () => {
+    type MockRequest = {
+        get: (key: string) => string | undefined;
+    };
+
+    it("get bearer token", () => {
+        const req: MockRequest = {
+            get: (key: string) => {
+                if (key === "Authorization") {
+                    return "Bearer 123456";
+                }
+                return undefined;
+            },
+        };
+        const result = getBearerToken(req as Request);
+        expect(result).toBe("123456");
     });
 });
