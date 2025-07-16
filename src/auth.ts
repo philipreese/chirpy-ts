@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { BadRequestError, UnauthorizedError } from "./api/errors.js";
 import { Request } from "express";
+import crypto from "crypto";
 
 const TOKEN_ISSUER = "chirpy";
 
@@ -70,4 +71,8 @@ export function getBearerToken(req: Request): string {
         throw new UnauthorizedError("missing token in Authorization header");
     }
     return token;
+}
+
+export function makeRefreshToken() {
+    return crypto.randomBytes(32).toString("hex");
 }
