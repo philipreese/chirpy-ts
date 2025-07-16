@@ -18,7 +18,7 @@ import {
     handlerGetChirps,
 } from "./api/chirps.js";
 import { config } from "./config.js";
-import { handlerCreateUser } from "./api/users.js";
+import { handlerCreateUser, handlerUpdateUser } from "./api/users.js";
 import { handlerLogin, handlerRefresh, handlerRevoke } from "./api/auth.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -49,6 +49,10 @@ app.get("/api/chirps/:chirpID", (req, res, next) => {
 app.post("/api/users", (req, res, next) => {
     Promise.resolve(handlerCreateUser(req, res)).catch(next);
 });
+app.put("/api/users", (req, res, next) => {
+    Promise.resolve(handlerUpdateUser(req, res)).catch(next);
+});
+
 app.post("/api/login", (req, res, next) => {
     Promise.resolve(handlerLogin(req, res)).catch(next);
 });

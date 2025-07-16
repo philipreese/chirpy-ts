@@ -57,7 +57,7 @@ export function validateJWT(tokenString: string, secret: string): string {
 export function getBearerToken(req: Request): string {
     let bearerToken = req.get("Authorization");
     if (!bearerToken) {
-        throw new BadRequestError("missing Authorization header");
+        throw new UnauthorizedError("missing Authorization header");
     }
 
     if (!bearerToken.toLowerCase().startsWith("bearer ")) {
