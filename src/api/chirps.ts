@@ -11,6 +11,7 @@ import {
     deleteChirp,
     getChirpById,
     getChirps,
+    getChirpsByUserId,
 } from "../db/queries/chirps.js";
 import { getBearerToken, validateJWT } from "../auth.js";
 import { config } from "../config.js";
@@ -37,7 +38,15 @@ export async function handlerCreateChirp(req: Request, res: Response) {
 }
 
 export async function handlerGetChirps(req: Request, res: Response) {
-    const chirps = await getChirps();
+    let authorId = "";
+    const authorIdQuery = req.query.authorId;
+    if (typeof authorIdQuery === "string") {
+        authorId = authorIdQuery;
+    }
+
+    const chirps =
+        authorId == "" ? await getChirps() : await getChirpsByUserId(authorId);
+
     respondWithJson(res, 200, chirps);
 }
 
