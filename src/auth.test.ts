@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import {
     checkPasswordHash,
+    getAPIKey,
     getBearerToken,
     hashPassword,
     makeJWT,
@@ -74,6 +75,25 @@ describe("Get Bearer Token", () => {
             },
         };
         const result = getBearerToken(req as Request);
+        expect(result).toBe("123456");
+    });
+});
+
+describe("Get API Key", () => {
+    type MockRequest = {
+        get: (key: string) => string | undefined;
+    };
+
+    it("get api key", () => {
+        const req: MockRequest = {
+            get: (key: string) => {
+                if (key === "Authorization") {
+                    return "ApiKey 123456";
+                }
+                return undefined;
+            },
+        };
+        const result = getAPIKey(req as Request);
         expect(result).toBe("123456");
     });
 });
