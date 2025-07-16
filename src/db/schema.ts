@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+    boolean,
+    pgTable,
+    text,
+    timestamp,
+    uuid,
+    varchar,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -11,6 +18,7 @@ export const users = pgTable("users", {
     hashedPassword: varchar("hashed_password", { length: 256 })
         .default("unset")
         .notNull(),
+    isChirpyRed: boolean("is_chirpy_red").notNull().default(false),
 });
 
 export const chirps = pgTable("chirps", {
